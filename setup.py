@@ -4,14 +4,14 @@ with open("README.md", "r") as fh:
     long_description = fh.read()
 
 setuptools.setup(
-    name="openscap-gatherer",
+    name="openscap_gatherer",
     version="0.0.1",
     author="Daniel Lobato Garcia",
     author_email="me@daniellobato.me",
     description="Python library to download a policy/profile, run OpenSCAP, and upload zipped results",
     long_description=long_description,
     long_description_content_type="text/markdown",
-    url="https://github.com/dlobatog/openscap-gatherer",
+    url="https://github.com/dlobatog/openscap_gatherer",
     packages=setuptools.find_packages(),
     classifiers=(
         "Programming Language :: Python :: 2",

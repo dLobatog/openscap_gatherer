@@ -1,2 +1,2 @@
-# openscap-gatherer
+# openscap_gatherer
 Python library to download a policy/profile, run OpenSCAP, and upload zipped results
