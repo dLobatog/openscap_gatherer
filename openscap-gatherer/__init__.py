@@ -5,6 +5,7 @@ This library is meant to read a config file, download a policy if needed,
 run OpenSCAP (shelling out), gather the report and upload it to some
 destination.
 """
+name = 'openscap-gatherer'
 version = "0.0.1.dev1"
 # version_info is a four-tuple for programmatic comparison. The first
 # three numbers are the components of the version number.  The fourth
