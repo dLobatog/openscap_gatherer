@@ -23,7 +23,9 @@ class OpenscapGatherer:
 
     def read_config(self, config_file=None):
         config = configparser.ConfigParser()
-        config_file = config_file if config_file is not None else self.config_file
+        if config_file is None:
+            config_file = self.config_file
+
         if self.debug:
             print("[openscap_gatherer] - Reading file - ", config_file)
         config.read(config_file)
