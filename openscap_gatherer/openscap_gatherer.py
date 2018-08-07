@@ -1,4 +1,5 @@
 from __future__ import print_function
+from runner import Runner
 import configparser
 
 
@@ -34,3 +35,7 @@ class OpenscapGatherer:
         self.content_path = config['compliance']['content_path']
         self.tailoring_path = config['compliance']['tailoring_path']
         return dict(config['compliance'])
+
+    def run_scan(self):
+        runner = Runner(self.read_config(), debug=self.debug)
+        runner.scan()

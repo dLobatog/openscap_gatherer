@@ -2,6 +2,8 @@ from openscap_gatherer.runner import Runner
 from openscap_gatherer.runner import RunnerError
 import re
 import pytest
+import subprocess
+import mock
 
 
 class TestRunner:
@@ -50,13 +52,23 @@ class TestRunner:
             runner.scan_command()
         assert 'without content_path' in str(e_info)
 
-#    def test_scan_shells_out(self):
-#        runner = Runner(
-#            {
-#                'profile': 'foo',
-#                'dirpath': '/tmp/insights-compliance',
-#                'content_path':
-#                '/usr/share/xml/scap/ssg/fedora/ssg-fedora-ds.xml'
-#            }
-#        )
-#        runner.scan()
+    @mock.patch('subprocess.Popen')
+    def test_scan_shells_out(self, subprocess_popen):
+        runner = Runner(
+            {
+                'profile': 'foo',
+                'dirpath': '/tmp/insights-compliance',
+                'content_path':
+                '/usr/share/xml/scap/ssg/fedora/ssg-fedora-ds.xml'
+            }
+        )
+        process_mock = mock.Mock(returncode=0)
+        attrs = {'communicate.return_value': ('out', 'error')}
+        process_mock.configure_mock(**attrs)
+        subprocess_popen.return_value = process_mock
+        runner.scan()
+        subprocess_popen.assert_called_once_with(
+            runner.scan_command().split(' '),
+            stdout=subprocess.PIPE,
+            stderr=subprocess.PIPE
+        )
