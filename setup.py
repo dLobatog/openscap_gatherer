@@ -8,7 +8,8 @@ setuptools.setup(
     version="0.0.1",
     author="Daniel Lobato Garcia",
     author_email="me@daniellobato.me",
-    description="Python library to download a policy/profile, run OpenSCAP, and upload zipped results",
+    description=("Python library to download a policy/profile, run OpenSCAP,"
+                 " and upload zipped results"),
     long_description=long_description,
     long_description_content_type="text/markdown",
     url="https://github.com/dlobatog/openscap_gatherer",

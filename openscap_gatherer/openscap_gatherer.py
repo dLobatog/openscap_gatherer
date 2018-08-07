@@ -6,7 +6,7 @@ class OpenscapGatherer:
     """Base class for openscap_gatherer
     """
 
-    def __init__(self, config_file, debug=True):
+    def __init__(self, config_file, debug=False):
         """Constructor for openscap_gatherer
 
         Args:
@@ -32,4 +32,5 @@ class OpenscapGatherer:
         self.policy_uuid = config['compliance']['policy_uuid']
         self.profile = config['compliance']['profile']
         self.content_path = config['compliance']['content_path']
-        return config['compliance']
+        self.tailoring_path = config['compliance']['tailoring_path']
+        return dict(config['compliance'])
