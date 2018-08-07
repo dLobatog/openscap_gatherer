@@ -14,18 +14,21 @@ class Runner:
         self.debug = debug
         self.profile = options['profile']
         self.content_path = options['content_path']
+        self.timestamp = int(time.time())
         if 'dirpath' in options:
             self.dirpath = options['dirpath']
         else:
             self.dirpath = tempfile.mkdtemp()
+
+    def results_path(self):
+        return self.dirpath + '/' + str(self.timestamp) + '.xml'
 
     def scan_command(self):
         command = 'oscap xccdf eval '
         if self.profile:
             command += ('--profile ' + self.profile + ' ')
 
-        command += ('--results-arf ' + self.dirpath + '/' +
-                    str(int(time.time())) + '.xml ')
+        command += ('--results-arf ' + self.results_path() + ' ')
         if self.content_path:
             command += self.content_path
         else:
