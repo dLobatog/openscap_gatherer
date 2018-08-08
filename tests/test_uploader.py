@@ -1,6 +1,5 @@
 from openscap_gatherer.uploader import Uploader
 from openscap_gatherer.uploader import NoFilesAvailable
-from tarfile import TarFile
 import pytest
 import mock
 
@@ -20,16 +19,22 @@ class TestUploader:
         assert 'might not exist' in str(e_info)
         assert 'unreadable' in str(e_info)
 
-    @mock.patch.object(TarFile, 'add')
     @mock.patch('tarfile.open')
-    def test_zip_creates_tar_file(self, mocked_add, tarfile_open):
-    #def test_zip_creates_tar_file(self, tarfile_open):
+    def test_zip_creates_tar_file(self, tarfile_open):
         uploader = Uploader(
             ['/tmp/filepath1', '/tmp/filepath2', '/tmp/filepath3'],
             '/tmp/openscap_gatherer/results.xml',
             ''
         )
-        uploader.zip()
-        mocked_add.assert_called_once_with('/tmp/filepath1')
-        tarfile_open.assert_called_once_with('/tmp/openscap_gatherer/results.xml.tar.gz',
-                                             'w:gz')
+        tar_mock = mock.Mock()
+        tarfile_open.return_value = tar_mock
+        with mock.patch.object(tar_mock, 'add') as tar_add_mock:
+            uploader.zip()
+            tar_add_mock.assert_any_call('/tmp/filepath1', arcname='filepath1')
+            tar_add_mock.assert_any_call('/tmp/filepath2', arcname='filepath2')
+            tar_add_mock.assert_any_call('/tmp/filepath3', arcname='filepath3')
+
+        tarfile_open.assert_called_once_with(
+            '/tmp/openscap_gatherer/results.xml.tar.gz',
+            'w:gz'
+        )

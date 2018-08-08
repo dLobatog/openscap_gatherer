@@ -1,6 +1,5 @@
 from __future__ import print_function
 from runner import Runner
-from uploader import Uploader
 import configparser
 
 
