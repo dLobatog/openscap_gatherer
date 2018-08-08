@@ -23,12 +23,21 @@ class Uploader:
             )
             raise(NoFilesAvailable(self, msg=no_files_message))
 
+        if self.debug:
+            print(
+                "[openscap_gatherer] - Creating tar with reports at",
+                ', '.join(map(str, self.files))
+            )
         tar = tarfile.open(self.zipped_filepath(), 'w:gz')
         try:
             for report in self.files:
                 tar.add(report, arcname=os.path.basename(report))
         finally:
             tar.close()
+
+        if self.debug:
+            print('[openscap_gatherer] - Finished creating tar - ', tar.name)
+        return tar
 
 
 class UploaderError(Exception):
