@@ -1,6 +1,6 @@
 from __future__ import print_function
 from runner import Runner
-from uploader import Uploader
+from compressor import Compressor
 import configparser
 
 
@@ -38,13 +38,9 @@ class OpenscapGatherer:
         return dict(config['compliance'])
 
     def run_scan(self):
-        self.runner.scan()
+        return self.runner.scan()
 
-    def upload_files(self, files):
-        # HHHHHHACKHHHHHHH - URL should be provided by config file
-        url = "http://localhost:8080/api/v1/upload"
-        uploader = Uploader(files, self.runner.results_path, url,
-                            debug=self.debug)
-        zipped_file = uploader.zip()
-        print(zipped_file)
-        # upload_result = uploader.upload(zipped_filepath)
+    def compress_files(self, files):
+        compressor = Compressor(files, self.runner.results_path,
+                                debug=self.debug)
+        return compressor.zip()

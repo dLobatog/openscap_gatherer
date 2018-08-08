@@ -2,12 +2,11 @@ import tarfile
 import os
 
 
-class Uploader:
-    """ Service to zip results (arbitrary files) and upload them
-    to a certain URL
+class Compressor:
+    """ Service to zip results (arbitrary files)
     """
 
-    def __init__(self, files, results_path, url, debug=False):
+    def __init__(self, files, results_path, debug=False):
         self.files = files
         self.results_path = results_path
         self.debug = debug
@@ -40,16 +39,16 @@ class Uploader:
         return tar
 
 
-class UploaderError(Exception):
+class CompressorError(Exception):
     """ Basic exception for problems raised by the uploader """
 
     def __init__(self, uploader, msg=None):
         if msg is None:
             # Set some default useful error message
             msg = "An error occured with uploader %s" % uploader
-        super(UploaderError, self).__init__(msg)
+        super(CompressorError, self).__init__(msg)
         self.uploader = uploader
 
 
-class NoFilesAvailable(UploaderError):
+class NoFilesAvailable(CompressorError):
     pass
